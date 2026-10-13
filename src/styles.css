@@ -1,0 +1,766 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Karla", system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brass: var(--brass);
+  --color-sage: var(--sage);
+  --color-espresso: var(--espresso);
+  --color-cream: var(--cream);
+  --color-forest: var(--forest);
+  --color-gate-blue: var(--gate-blue);
+  --color-bougainvillea: var(--bougainvillea);
+  --color-garden-green: var(--garden-green);
+  --color-sun-gold: var(--sun-gold);
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: #fdfbf7;                     /* warm sunlit cottage linen - clean & airy */
+  --cream: #f8f3eb;                          /* soft farmhouse ivory */
+  --foreground: #2d2621;                     /* warm espresso charcoal */
+  --espresso: #2d2621;
+  --card: #ffffff;
+  --card-foreground: #2d2621;
+  --popover: #ffffff;
+  --popover-foreground: #2d2621;
+  
+  /* Color palette extracted directly from Magnolia Caffee entrance & Instagram */
+  --primary: #186bb0;                        /* Iconic Painted Gate Cobalt / Azure Blue */
+  --gate-blue: #186bb0;
+  --primary-foreground: #ffffff;
+  
+  --accent: #d92672;                         /* Bougainvillea Flower Magenta / Fuchsia Pink */
+  --bougainvillea: #d92672;
+  --accent-foreground: #ffffff;
+  
+  --secondary: #f0f7f2;                      /* Lush Garden Leaf Mint / Soft Sage */
+  --secondary-foreground: #1b5329;
+  --garden-green: #226f3e;                   /* Tropical Fern & Potted Plants Green */
+  --sage: #226f3e;
+  --forest: #186bb0;
+  
+  --sun-gold: #d97706;                       /* Sunshine & Hand-painted Yellow Pathway Lettering */
+  --brass: #d97706;
+  
+  --muted: #f4eee5;
+  --muted-foreground: #6b6056;
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: #ffffff;
+  --border: #ece4d8;
+  --input: #ece4d8;
+  --ring: #186bb0;
+  
+  --overlay: linear-gradient(180deg, rgba(20, 50, 80, 0.4) 0%, rgba(20, 30, 40, 0.8) 100%);
+  --paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .025 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    background-image: var(--paper);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 500; letter-spacing: -0.01em; }
+  :focus-visible { outline: 2px solid var(--gate-blue); outline-offset: 3px; }
+}
+
+/* Background Floating Petals Animation */
+@keyframes petal-drift {
+  0% {
+    transform: translate3d(0, -30px, 0) rotate(0deg) scale(0.7);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.65;
+  }
+  85% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(80px, 105vh, 0) rotate(360deg) scale(1.1);
+    opacity: 0;
+  }
+}
+
+.floating-petal {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 60% 0 60% 0;
+  animation: petal-drift linear infinite;
+}
+
+/* Gentle ambient background sun warmth breathing */
+@keyframes sun-breeze {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translate3d(15px, -15px, 0) scale(1.08);
+    opacity: 0.65;
+  }
+}
+
+.ambient-sunbeam {
+  animation: sun-breeze 16s ease-in-out infinite;
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gate-blue);
+}
+
+@utility eyebrow-pink {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bougainvillea);
+}
+
+@utility hero-overlay { background: var(--overlay); }
+
+@utility gate-rule {
+  display: flex; align-items: center; gap: 0.75rem; color: var(--gate-blue);
+  &::before, &::after { content: ""; height: 1px; flex: 1; background: currentColor; opacity: .3; }
+}
+
+@utility frame {
+  outline: 1.5px solid var(--gate-blue);
+  outline-offset: -10px;
+}
+
+@utility arched-portal {
+  border-radius: 180px 180px 28px 28px;
+  box-shadow: 0 25px 60px -15px rgba(24, 107, 176, 0.22), 0 0 0 5px #ffffff, 0 0 0 8px rgba(24, 107, 176, 0.85);
+}
+
+@utility fade-up { animation: fade-up 0.9s ease-out both; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ========================================================
+   HANDCRAFTED "COOL" VINTAGE GARDEN BUTTON SYSTEM
+   ======================================================== */
+
+@keyframes btn-gate-pulse {
+  0%, 100% {
+    box-shadow: 0 4px 18px -1px rgba(24, 107, 176, 0.38), inset 0 1px 1.5px rgba(255, 255, 255, 0.45);
+  }
+  50% {
+    box-shadow: 0 8px 28px 0 rgba(24, 107, 176, 0.55), inset 0 1px 1.5px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes btn-bougainvillea-pulse {
+  0%, 100% {
+    box-shadow: 0 4px 18px -1px rgba(217, 38, 114, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 8px 30px 0 rgba(217, 38, 114, 0.62), inset 0 1px 1.5px rgba(255, 255, 255, 0.65);
+  }
+}
+
+@keyframes btn-brass-pulse {
+  0%, 100% {
+    box-shadow: 0 4px 18px -1px rgba(217, 119, 6, 0.38), inset 0 1px 1.5px rgba(255, 255, 255, 0.45);
+  }
+  50% {
+    box-shadow: 0 8px 28px 0 rgba(217, 119, 6, 0.58), inset 0 1px 1.5px rgba(255, 255, 255, 0.65);
+  }
+}
+
+/* 1. PRIMARY BUTTON: Painted Cobalt Gate Blue with Enamel Top Sheen & Shimmer Sweep */
+@utility btn-primary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.95rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  background: linear-gradient(135deg, #248ce0 0%, #186bb0 45%, #0e5088 100%);
+  color: #ffffff;
+  border: 1px solid #145992;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-bottom: 1.5px solid rgba(10, 45, 75, 0.45);
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px -2px rgba(24, 107, 176, 0.42), inset 0 1px 1.5px rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: btn-gate-pulse 5s ease-in-out infinite;
+
+  /* Moving Light Sweep (Smooth diagonal liquid shimmer on hover) */
+  &::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -130%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 20%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.08) 80%,
+      transparent 100%
+    );
+    transform: rotate(25deg);
+    transition: left 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+  }
+
+  /* Micro-animations on embedded icons */
+  & svg {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #2e9bf5 0%, #1c7cd0 45%, #105996 100%);
+    transform: translateY(-3px) scale(1.025);
+    box-shadow: 0 12px 32px -2px rgba(24, 107, 176, 0.55), inset 0 1px 1.5px rgba(255, 255, 255, 0.65);
+    border-color: #1a75c2;
+
+    &::after {
+      left: 170%;
+    }
+
+    & svg {
+      transform: scale(1.15);
+    }
+
+    & .lucide-arrow-right {
+      transform: translateX(4px) scale(1.12);
+    }
+
+    & .lucide-map-pin {
+      transform: translateY(-2.5px) scale(1.2);
+    }
+  }
+
+  &:active {
+    transform: translateY(1.5px) scale(0.97);
+    box-shadow: 0 2px 8px rgba(24, 107, 176, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.25);
+    transition-duration: 0.1s;
+  }
+}
+
+/* 2. ACCENT BUTTON: Vibrant Bougainvillea Fuchsia with Radiant Floral Glow */
+@utility btn-accent {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.95rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  background: linear-gradient(135deg, #fa4d9b 0%, #d92672 45%, #b51259 100%);
+  color: #ffffff;
+  border: 1px solid #bf165e;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-bottom: 1.5px solid rgba(130, 10, 60, 0.45);
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px -2px rgba(217, 38, 114, 0.42), inset 0 1px 1.5px rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: btn-bougainvillea-pulse 5s ease-in-out infinite;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -130%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 20%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.08) 80%,
+      transparent 100%
+    );
+    transform: rotate(25deg);
+    transition: left 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+  }
+
+  & svg {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #ff61ab 0%, #e62d7c 45%, #c21561 100%);
+    transform: translateY(-3px) scale(1.025);
+    box-shadow: 0 12px 32px -2px rgba(217, 38, 114, 0.6), inset 0 1px 1.5px rgba(255, 255, 255, 0.7);
+    border-color: #d92672;
+
+    &::after {
+      left: 170%;
+    }
+
+    & svg {
+      transform: scale(1.18);
+    }
+
+    & .lucide-instagram {
+      transform: scale(1.22) rotate(6deg);
+    }
+
+    & .lucide-sparkles {
+      transform: scale(1.25) rotate(15deg);
+    }
+  }
+
+  &:active {
+    transform: translateY(1.5px) scale(0.97);
+    box-shadow: 0 2px 8px rgba(217, 38, 114, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.25);
+    transition-duration: 0.1s;
+  }
+}
+
+/* 3. VINTAGE BRASS & FLORIDA SUN GOLD BUTTON */
+@utility btn-brass {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.95rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 45%, #b45309 100%);
+  color: #ffffff;
+  border: 1px solid #b45309;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-bottom: 1.5px solid rgba(120, 50, 5, 0.45);
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px -2px rgba(217, 119, 6, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: btn-brass-pulse 5s ease-in-out infinite;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -130%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 20%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.08) 80%,
+      transparent 100%
+    );
+    transform: rotate(25deg);
+    transition: left 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+  }
+
+  & svg {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #fbbf24 0%, #e0830a 45%, #c25e0c 100%);
+    transform: translateY(-3px) scale(1.025);
+    box-shadow: 0 12px 32px -2px rgba(217, 119, 6, 0.58), inset 0 1px 1.5px rgba(255, 255, 255, 0.7);
+    border-color: #d97706;
+
+    &::after {
+      left: 170%;
+    }
+
+    & svg {
+      transform: scale(1.15) rotate(5deg);
+    }
+  }
+
+  &:active {
+    transform: translateY(1.5px) scale(0.97);
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.25);
+    transition-duration: 0.1s;
+  }
+}
+
+/* 4. OUTLINE / ARTISAN FROSTED PORCELAIN GLASS BUTTON */
+@utility btn-outline {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.95rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  color: var(--gate-blue);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(24, 107, 176, 0.45);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-bottom: 1.5px solid rgba(24, 107, 176, 0.65);
+  border-radius: 9999px;
+  box-shadow: 0 3px 14px rgba(24, 107, 176, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -130%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(24, 107, 176, 0.04) 20%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(24, 107, 176, 0.04) 80%,
+      transparent 100%
+    );
+    transform: rotate(25deg);
+    transition: left 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+  }
+
+  & svg {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #f0f7fe 0%, #ffffff 100%);
+    border-color: var(--gate-blue);
+    color: #10558e;
+    transform: translateY(-3px) scale(1.025);
+    box-shadow: 0 10px 28px -2px rgba(24, 107, 176, 0.26), inset 0 1px 2px rgba(255, 255, 255, 1);
+
+    &::after {
+      left: 170%;
+    }
+
+    & svg {
+      transform: scale(1.15);
+    }
+
+    & .lucide-arrow-right {
+      transform: translateX(4px) scale(1.15);
+    }
+
+    & .lucide-arrow-down {
+      transform: translateY(3px) scale(1.15);
+    }
+
+    & .lucide-clock {
+      transform: rotate(25deg) scale(1.15);
+    }
+
+    & .lucide-phone {
+      transform: rotate(-12deg) scale(1.18);
+    }
+
+    & .lucide-download {
+      transform: translateY(2px) scale(1.15);
+    }
+
+    & .lucide-log-out {
+      transform: translateX(2px) scale(1.15);
+    }
+  }
+
+  &:active {
+    transform: translateY(1.5px) scale(0.97);
+    box-shadow: 0 2px 6px rgba(24, 107, 176, 0.12), inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition-duration: 0.1s;
+  }
+}
+
+/* 5. LIGHT FROSTED BUTTON (For dark or image hero overlays) */
+@utility btn-light {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.95rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-top: 1.5px solid #ffffff;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: #ffffff;
+    transform: translateY(-3px) scale(1.025);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+  }
+
+  &:active {
+    transform: translateY(1.5px) scale(0.97);
+    transition-duration: 0.1s;
+  }
+}
+
+/* 6. DANGER / CLEAR DATA BUTTON (Polished Ruby Lacquer) */
+@utility btn-danger {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.45rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 50%, #dc2626 100%);
+  color: #ffffff;
+  border: 1px solid #dc2626;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-bottom: 1.5px solid rgba(130, 15, 15, 0.5);
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -130%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 20%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.1) 80%,
+      transparent 100%
+    );
+    transform: rotate(25deg);
+    transition: left 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+  }
+
+  & svg {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 10px 24px rgba(239, 68, 68, 0.48), inset 0 1px 1.5px rgba(255, 255, 255, 0.6);
+
+    &::after {
+      left: 170%;
+    }
+
+    & svg {
+      transform: scale(1.18);
+    }
+  }
+
+  &:active {
+    transform: translateY(1.5px) scale(0.97);
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25), inset 0 2px 3px rgba(0, 0, 0, 0.25);
+    transition-duration: 0.1s;
+  }
+}
+
+/* ========================================================
+   BOUTIQUE CAFÉ NAVIGATION PILL SYSTEM
+   ======================================================== */
+
+.nav-pill-dock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.45rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(236, 228, 216, 0.95);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px -2px rgba(24, 107, 176, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease;
+}
+
+.nav-pill-dock:hover {
+  border-color: rgba(24, 107, 176, 0.35);
+  box-shadow: 0 6px 24px -2px rgba(24, 107, 176, 0.12), inset 0 1px 2px rgba(255, 255, 255, 1);
+}
+
+.nav-pill {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  border-radius: 9999px;
+  color: #5c5248;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-pill svg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-pill:hover {
+  color: var(--gate-blue);
+  background: rgba(24, 107, 176, 0.09);
+  transform: translateY(-1.5px);
+}
+
+.nav-pill:hover svg {
+  transform: scale(1.15);
+}
+
+/* Active Nav Pill: Painted Cobalt Gate Blue with Enamel Top Sheen & Floral Jewel Dot */
+.nav-pill[data-status="active"] {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #248ce0 0%, #186bb0 45%, #0e5088 100%) !important;
+  border: 1px solid #145992;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-bottom: 1.5px solid rgba(10, 45, 75, 0.4);
+  box-shadow: 0 4px 16px -1px rgba(24, 107, 176, 0.42), inset 0 1px 1.5px rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.nav-pill[data-status="active"] svg {
+  color: #ffffff !important;
+}
+
+/* Moving Light Sweep on active or hovered nav pill */
+.nav-pill[data-status="active"]::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -130%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  transition: left 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+
+.nav-pill[data-status="active"]:hover::before {
+  left: 170%;
+}
+
+/* Glowing Bougainvillea Pink Blossom indicator dot beside active link */
+.nav-pill[data-status="active"]::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #fa4d9b;
+  box-shadow: 0 0 10px #fa4d9b, 0 0 4px #ffffff;
+  margin-left: 2px;
+  animation: nav-blossom-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes nav-blossom-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+    box-shadow: 0 0 14px #fa4d9b, 0 0 6px #ffffff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
